@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greig Bezuidenhout - Transformational Leader</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        /*
+         * General Styles
+         * Resets margin and padding for all elements, sets box-sizing to border-box.
+         * Defines body font, background gradient, text color, and line height.
+         */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #1e3c72 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /*
+         * Hamburger Menu Styles
+         * Positions the hamburger icon, sets its appearance (background, border-radius, shadow),
+         * and defines transitions for smooth hover effects.
+         */
+        .hamburger {
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            z-index: 1001;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px); /* Adds a subtle blur effect */
+        }
+
+        .hamburger:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.05); /* Slightly enlarges on hover */
+        }
+
+        /* Styles for the individual lines of the hamburger icon */
+        .hamburger span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background: #2a5298;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        /*
+         * Hamburger Menu Active State
+         * Transforms the hamburger lines into an 'X' shape when active.
+         */
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-6px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0; /* Hides the middle line */
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-6px, -6px);
+        }
+
+        /*
+         * Navigation Overlay Styles
+         * Creates a semi-transparent overlay that appears when the navigation is active,
+         * dimming the background content.
+         */
+        .nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden; /* Hidden by default */
+            transition: all 0.3s ease;
+        }
+
+        .nav-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /*
+         * Navigation Menu Styles
+         * Positions the off-canvas navigation menu, sets its size, background, and shadow.
+         * Defines transition for smooth slide-in/out effect.
+         */
+        .navigation {
+            position: fixed;
+            top: 0;
+            left: -320px; /* Off-screen by default */
+            width: 320px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px); /* Stronger blur for the menu background */
+            z-index: 1000;
+            transition: left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Custom cubic-bezier for smooth animation */
+            padding: 80px 0 40px;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation.active {
+            left: 0; /* Slides into view */
+        }
+
+        /*
+         * Navigation Item Styles
+         * Styles for individual links within the navigation menu.
+         * Includes padding, text color, font weight, and a left border for visual emphasis.
+         */
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 18px 30px;
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent; /* Transparent border by default */
+        }
+
+        .nav-item:hover {
+            background: rgba(42, 82, 152, 0.1); /* Light blue background on hover */
+            border-left-color: #2a5298; /* Blue border on hover */
+            padding-left: 35px; /* Slight indent on hover */
+        }
+
+        /* Styles for icons within navigation items */
+        .nav-icon {
+            margin-right: 15px;
+            font-size: 18px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /*
+         * Main Container Styles
+         * Ensures main content is above the navigation overlay.
+         */
+        .main-container {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+        }
+
+        /*
+         * Hero Section Styles
+         * Defines the main introductory section with a frosted glass effect, rounded corners,
+         * padding, and shadow.
+         */
+        .hero-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            margin: 25px;
+            border-radius: 15px;
+            padding: 60px 40px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Styles for the profile name */
+        .profile-name {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #2a5298;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        /* Styles for the profile titles/slogans */
+        .profile-title {
+            font-size: 1.4rem;
+            color: #555;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        /*
+         * Contact Info Grid
+         * Uses CSS Grid for a responsive layout of contact cards.
+         */
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        /* Styles for individual contact cards */
+        .contact-card {
+            background: rgba(42, 82, 152, 0.05);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid rgba(42, 82, 152, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-2px); /* Lifts slightly on hover */
+            box-shadow: 0 8px 25px rgba(42, 82, 152, 0.15);
+        }
+
+        /* Styles for contact icons */
+        .contact-icon {
+            font-size: 24px;
+            color: #2a5298;
+            margin-bottom: 10px;
+        }
+
+        /* Styles for contact labels (e.g., "Email") */
+        .contact-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        /* Styles for contact values (e.g., "greigbezuidenhout7@gmail.com") */
+        .contact-value {
+            color: #666;
+            font-size: 15px;
+        }
+
+        /*
+         * Content Section Styling
+         * Reuses the frosted glass effect and general styling for content sections.
+         */
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            margin: 25px;
+            border-radius: 15px;
+            padding: 50px 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Styles for section titles */
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2a5298;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        /* Styles for section subtitles */
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 40px;
+            font-style: italic;
+            font-weight: 300;
+        }
+
+        /*
+         * Methodology Grid
+         * Uses CSS Grid for a responsive layout of methodology steps.
+         */
+        .methodology-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        /* Styles for individual methodology steps */
+        .methodology-step {
+            background: rgba(42, 82, 152, 0.08);
+            border-radius: 15px;
+            padding: 30px;
+            border-left: 5px solid #2a5298; /* Left border for emphasis */
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .methodology-step:hover {
+            transform: translateY(-5px); /* Lifts more on hover */
+            box-shadow: 0 12px 30px rgba(42, 82, 152, 0.15);
+        }
+
+        /* Styles for the step number circle */
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 25px;
+            background: #2a5298;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        /* Styles for step titles */
+        .step-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+            margin: 20px 0 15px;
+        }
+
+        /* Styles for step descriptions */
+        .step-description {
+            color: #555;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        /*
+         * Technology Experience Grid
+         * Uses CSS Grid for a responsive layout of technology experience cards.
+         */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        /* Styles for individual technology cards */
+        .tech-card {
+            background: rgba(42, 82, 152, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(42, 82, 152, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .tech-card:hover {
+            transform: translateY(-3px); /* Lifts slightly on hover */
+            box-shadow: 0 10px 30px rgba(42, 82, 152, 0.15);
+        }
+
+        /* Styles for technology card titles */
+        .tech-title {
+            color: #2a5298;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        /* Styles for technology card descriptions */
+        .tech-description {
+            color: #555;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        /* Container for skill tags */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        /* Styles for individual skill tags */
+        .skill-tag {
+            background: #2a5298;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            background: #1e3c72; /* Darker blue on hover */
+            transform: scale(1.05); /* Slightly enlarges on hover */
+        }
+
+        /*
+         * Vision Statement Section
+         * Styles for the vision statement box.
+         */
+        .vision-section {
+            background: rgba(42, 82, 152, 0.1);
+            border-radius: 15px;
+            padding: 50px;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        /* Styles for the vision quote */
+        .vision-quote {
+            font-size: 1.5rem;
+            color: #333;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        /* Styles for the vision author */
+        .vision-author {
+            font-size: 1.1rem;
+            color: #2a5298;
+            font-weight: 600;
+        }
+
+        /*
+         * Highlight Box Styles
+         * Used for the "What Sets Me Apart" section.
+         */
+        .highlight-box {
+            background: rgba(42, 82, 152, 0.08);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            border-left: 4px solid #2a5298;
+        }
+
+        /* Styles for highlight box title */
+        .highlight-title {
+            color: #2a5298;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        /* Styles for highlight box text */
+        .highlight-text {
+            color: #555;
+            font-size: 15px;
+        }
+
+        /*
+         * Responsive Design Media Queries
+         * Adjusts layout and font sizes for different screen widths (mobile, tablet).
+         */
+        @media (max-width: 768px) {
+            .hero-section, .content-section {
+                margin: 15px;
+                padding: 40px 25px;
+            }
+
+            .profile-name {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            /* Stacks grid items vertically on smaller screens */
+            .methodology-grid, .tech-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-info {
+                grid-template-columns: 1fr;
+            }
+
+            .vision-quote {
+                font-size: 1.2rem;
+            }
+
+            .navigation {
+                width: 280px;
+                left: -280px; /* Adjusts off-screen position for smaller menu width */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .profile-name {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+
+            .hero-section, .content-section {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hamburger Menu -->
+    <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- Navigation Overlay -->
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <!-- Navigation Menu -->
+    <nav class="navigation" id="navigation">
+        <a href="#hero" class="nav-item">
+            <span class="nav-icon">👤</span>
+            Profile
+        </a>
+        <a href="#methodology" class="nav-item">
+            <span class="nav-icon">📋</span>
+            Methodology
+        </a>
+        <a href="#technology" class="nav-item">
+            <span class="nav-icon">💻</span>
+            Experience
+        </a>
+        <a href="#vision" class="nav-item">
+            <span class="nav-icon">🎯</span>
+            Vision
+        </a>
+        <a href="#contact" class="nav-item">
+            <span class="nav-icon">📞</span>
+            Contact
+        </a>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Hero Section -->
+        <section id="hero" class="hero-section">
+            <h1 class="profile-name">GREIG BEZUIDENHOUT</h1>
+            <p class="profile-title">Transformational Humanitarian Leader</p>
+            <p class="profile-title">Technology-Driven Change Catalyst</p>
+            <p class="profile-title">Sustainable Systems Innovator</p>
+            
+            <div class="contact-info">
+                <div class="contact-card">
+                    <div class="contact-icon">📧</div>
+                    <div class="contact-label">Email</div>
+                    <div class="contact-value">greigbezuidenhout7@gmail.com</div>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">📱</div>
+                    <div class="contact-label">Mobile</div>
+                    <div class="contact-value">+27 82 409 9449</div>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">🌍</div>
+                    <div class="contact-label">Location</div>
+                    <div class="contact-value">South Africa</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Methodology Section -->
+        <section id="methodology" class="content-section">
+            <h2 class="section-title">Transformation Methodology</h2>
+            <p class="section-subtitle">Structure through Spiritual Wisdom - Breaking Poverty Cycles</p>
+
+            <div class="methodology-grid">
+                <div class="methodology-step">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Moral Foundation & Spiritual Structure</h3>
+                    <p class="step-description">Methodology rooted in moral principles and spiritual wisdom creates unshakeable structure for humanitarian work - systematically identifying and dismantling unfair scales that perpetuate poverty cycles through principled leadership.</p>
+                </div>
+
+                <div class="methodology-step">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">Land Restoration & Soil Rehabilitation</h3>
+                    <p class="step-description">Sustainability begins at the root - comprehensive soil rehabilitation combined with strategic seed distribution restores degraded environments, creating the foundation for new growth and sustainable agricultural productivity.</p>
+                </div>
+
+                <div class="methodology-step">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Skills Education, Not Theory</h3>
+                    <p class="step-description">Education of practical, applicable skills rather than abstract theory - hands-on learning methodologies create capable, confident communities equipped with the knowledge to sustain their own development and growth.</p>
+                </div>
+
+                <div class="methodology-step">
+                    <div class="step-number">4</div>
+                    <h3 class="step-title">Nutrition & Health from the Land</h3>
+                    <p class="step-description">Quality produce from restored land directly eliminates health issues - proper nutrition from community-grown food creates healthier, more productive populations, breaking cycles of disease and dependency.</p>
+                </div>
+
+                <div class="methodology-step">
+                    <div class="step-number">5</div>
+                    <h3 class="step-title">Community Production Sharing</h3>
+                    <p class="step-description">Productive communities actively sharing in their crop production as self-sustainable systems - collective prosperity builds stronger social networks, food security, and mutual support structures.</p>
+                </div>
+
+                <div class="methodology-step">
+                    <div class="step-number">6</div>
+                    <h3 class="step-title">Self-Independence & Empowerment</h3>
+                    <p class="step-description">Decreased dependence on external supply chains creates true community upliftment - economic independence through resilient local systems generates lasting transformation and sustainable prosperity.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technology & Experience Section -->
+        <section id="technology" class="content-section">
+            <h2 class="section-title">Professional Experience & Technology</h2>
+            
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <h3 class="tech-title">Director of Operations - Tech Group</h3>
+                    <p class="tech-description">Multi-sector leadership across construction, finance & waste management. Applied cutting-edge business systems and mathematical modeling to optimize complex operations and resource allocation.</p>
+                    <div class="skills-container">
+                        <div class="skill-tag">Microsoft IT Programming</div>
+                        <div class="skill-tag">Business Systems</div>
+                        <div class="skill-tag">Trade Mathematics</div>
+                        <div class="skill-tag">Operations Management</div>
+                    </div>
+                </div>
+
+                <div class="tech-card">
+                    <h3 class="tech-title">Agricultural Operations - Jagged Ridge Farm</h3>
+                    <p class="tech-description">12+ years implementing innovative agricultural technology, sustainable livestock management, and precision farming techniques. Pioneered soil rehabilitation methods and community-based food security systems.</p>
+                    <div class="skills-container">
+                        <div class="skill-tag">Precision Agriculture</div>
+                        <div class="skill-tag">Soil Science</div>
+                        <div class="skill-tag">Sustainable Systems</div>
+                        <div class="skill-tag">Livestock Management</div>
+                    </div>
+                </div>
+
+                <div class="tech-card">
+                    <h3 class="tech-title">Logistics & Sales - Tiger Milling SA</h3>
+                    <p class="tech-description">Advanced supply chain management and sales optimization across South African markets. Developed resilient distribution networks using technology-driven logistics solutions and market analysis.</p>
+                    <div class="skills-container">
+                        <div class="skill-tag">Supply Chain Management</div>
+                        <div class="skill-tag">Market Analysis</div>
+                        <div class="skill-tag">Distribution Systems</div>
+                        <div class="skill-tag">Sales Optimization</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h3 class="highlight-title">What Sets Me Apart</h3>
+                <p class="highlight-text">I bring systematic technological innovation combined with principled leadership - not just implementing technology, but creating sustainable, morally-grounded systems that transform communities from dependency to self-sufficiency through integrated soil-to-society methodologies.</p>
+            </div>
+        </section>
+
+        <!-- Vision Section -->
+        <section id="vision" class="content-section">
+            <h2 class="section-title">Vision Statement</h2>
+            
+            <div class="vision-section">
+                <p class="vision-quote">
+                    "True transformation comes not from temporary relief, but from building unshakeable foundations rooted in moral principles, restored land, practical education, and community empowerment - creating systems that flourish long after external intervention ends."
+                </p>
+                <p class="vision-author">- Greig Bezuidenhout, Deputy Director Candidate</p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Hamburger Menu Functionality
+        const hamburger = document.getElementById('hamburger');
+        const navigation = document.getElementById('navigation');
+        const navOverlay = document.getElementById('navOverlay');
+
+        /**
+         * Toggles the active classes for the hamburger menu, navigation, and overlay.
+         */
+        function toggleMenu() {
+            hamburger.classList.toggle('active');
+            navigation.classList.toggle('active');
+            navOverlay.classList.toggle('active');
+        }
+
+        /**
+         * Removes the active classes, effectively closing the navigation menu.
+         */
+        function closeMenu() {
+            hamburger.classList.remove('active');
+            navigation.classList.remove('active');
+            navOverlay.classList.remove('active');
+        }
+
+        // Event listeners for opening and closing the menu
+        hamburger.addEventListener('click', toggleMenu);
+        navOverlay.addEventListener('click', closeMenu);
+
+        // Close menu when clicking on any navigation item
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent default anchor link behavior
+                const targetId = item.getAttribute('href').substring(1); // Get the section ID from href
+                const targetElement = document.getElementById(targetId);
+                
+                // Smooth scroll to the target section
+                if (targetElement) {
+                    targetElement.scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start' // Scrolls to the top of the element
+                    });
+                }
+                
+                closeMenu(); // Close the menu after clicking a link
+            });
+        });
+
+        // Smooth scroll animations for sections as they come into view
+        const observerOptions = {
+            threshold: 0.1, // Trigger when 10% of the element is visible
+            rootMargin: '0px 0px -50px 0px' // Adjusts the viewport margin for intersection calculation
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Animate element into view if it intersects
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation: methodology steps and tech cards
+        document.querySelectorAll('.methodology-step, .tech-card').forEach(el => {
+            el.style.opacity = '0'; // Start invisible
+            el.style.transform = 'translateY(30px)'; // Start slightly below
+            el.style.transition = 'all 0.6s ease'; // Apply transition for animation
+            observer.observe(el); // Start observing the element
+        });
+
+        // Close menu on Escape key press for accessibility
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeMenu();
+            }
+        });
+    </script>
+</body>
+</html>
+
